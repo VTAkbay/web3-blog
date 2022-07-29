@@ -1,25 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Header from "./components/Header";
+import {
+  ThemeProvider,
+  createTheme,
+  CssBaseline,
+  useMediaQuery,
+} from "@mui/material";
+import DarkModeSwitch from "./components/DarkModeSwitch";
 
 function App() {
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const [darkMode, setDarkMode] = React.useState(prefersDarkMode);
+
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: darkMode && prefersDarkMode ? "dark" : "light",
+        },
+      }),
+    [darkMode, prefersDarkMode]
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <div className="App">
+        <Header></Header>
+        <DarkModeSwitch
+          check={darkMode}
+          change={() => setDarkMode(!darkMode)}
+        ></DarkModeSwitch>
+      </div>
+    </ThemeProvider>
   );
 }
 
