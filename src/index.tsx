@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import NewStory from "./pages/NewStory";
 import Blog from "./pages/Blog";
 
@@ -40,6 +40,7 @@ root.render(
             </React.StrictMode>
           }
         />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>
   </React.StrictMode>
