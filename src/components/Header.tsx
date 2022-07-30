@@ -12,9 +12,9 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import DarkModeSwitch from "./DarkModeSwitch";
 import { useNavigate } from "react-router-dom";
-import { pages, settings } from "../lib/HeaderLists";
+import { pages, settings } from "../lib/header-lists";
+import { ToggleColorMode } from "./ToggleColorMode";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -144,10 +144,7 @@ const Header = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <DarkModeSwitch
-            // check={darkMode}
-            // change={() => setDarkMode(!darkMode)}
-            ></DarkModeSwitch>
+            <ToggleColorMode />
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

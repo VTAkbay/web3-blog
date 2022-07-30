@@ -7,34 +7,40 @@ import {
   CssBaseline,
   useMediaQuery,
 } from "@mui/material";
-import DarkModeSwitch from "./components/DarkModeSwitch";
+import { ColorModeContext } from "./components/ToggleColorMode";
 
-function App() {
+export default function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const [darkMode, setDarkMode] = React.useState(prefersDarkMode);
+
+  const [mode, setMode] = React.useState<"light" | "dark">(
+    prefersDarkMode ? "dark" : "light"
+  );
+
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+      },
+    }),
+    []
+  );
 
   const theme = React.useMemo(
     () =>
       createTheme({
         palette: {
-          mode: darkMode && prefersDarkMode ? "dark" : "light",
+          mode,
         },
       }),
-    [darkMode, prefersDarkMode]
+    [mode]
   );
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <div className="App">
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Header></Header>
-        <DarkModeSwitch
-          check={darkMode}
-          change={() => setDarkMode(!darkMode)}
-        ></DarkModeSwitch>
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
-
-export default App;
