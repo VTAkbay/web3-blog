@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import NewStory from "./pages/NewStory";
-import Blog from "./pages/Blog";
+import Stories from "./pages/Stories";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -32,11 +32,11 @@ root.render(
           }
         />
         <Route
-          path="blog"
+          path="stories"
           element={
             <React.StrictMode>
               <App />
-              <Blog></Blog>
+              <Stories></Stories>
             </React.StrictMode>
           }
         />
