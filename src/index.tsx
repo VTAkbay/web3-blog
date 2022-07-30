@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import NewStory from "./pages/NewStory";
 import Stories from "./pages/Stories";
+import MyStories from "./pages/MyStories";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -37,6 +38,15 @@ root.render(
             <React.StrictMode>
               <App />
               <Stories></Stories>
+            </React.StrictMode>
+          }
+        />
+        <Route
+          path="my-stories"
+          element={
+            <React.StrictMode>
+              <App />
+              <MyStories></MyStories>
             </React.StrictMode>
           }
         />

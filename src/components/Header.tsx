@@ -15,6 +15,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import { pages, settings } from "../lib/header-lists";
 import { ToggleColorMode } from "./ToggleColorMode";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -143,11 +144,21 @@ const Header = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, mr: -1 }}>
             <ToggleColorMode />
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
+            <ConnectButton
+              chainStatus="none"
+              accountStatus={{
+                smallScreen: "avatar",
+                largeScreen: "full",
+              }}
+            />
+          </Box>
+
+          {/* <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -175,7 +186,7 @@ const Header = () => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box> */}
         </Toolbar>
       </Container>
     </AppBar>

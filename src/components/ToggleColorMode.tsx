@@ -17,7 +17,6 @@ export function ToggleColorMode() {
       <FormControlLabel
         control={
           <MaterialUISwitch
-            sx={{ m: 1 }}
             checked={theme.palette.mode === "dark" ? true : false}
             onChange={colorMode.toggleColorMode}
           />
