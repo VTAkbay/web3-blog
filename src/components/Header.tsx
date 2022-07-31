@@ -137,7 +137,14 @@ const Header = () => {
                 onClick={() => {
                   navigate(`/${page.route}`);
                 }}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "darkgrey",
+                  },
+                  display: "block",
+                }}
               >
                 {page.title}
               </Button>
