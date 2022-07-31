@@ -3,10 +3,11 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import NewStory from "./pages/NewStory";
 import Stories from "./pages/Stories";
 import MyStories from "./pages/MyStories";
+import NotFound from "./pages/404";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -50,7 +51,15 @@ root.render(
             </React.StrictMode>
           }
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route
+          path="*"
+          element={
+            <React.StrictMode>
+              <App />
+              <NotFound></NotFound>
+            </React.StrictMode>
+          }
+        />
       </Routes>
     </HashRouter>
   </React.StrictMode>
