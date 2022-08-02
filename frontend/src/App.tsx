@@ -8,7 +8,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { ColorModeContext } from "./components/ToggleColorMode";
-import "@rainbow-me/rainbowkit/dist/index.css";
+import "@rainbow-me/rainbowkit/styles.css";
 import {
   darkTheme,
   lightTheme,
