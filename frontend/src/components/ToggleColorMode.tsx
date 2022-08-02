@@ -2,7 +2,7 @@ import React from "react";
 import { useTheme } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { MaterialUISwitch } from "../lib/utils";
+import { MaterialUISwitch } from "../lib/dark-mode-switch-style";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},

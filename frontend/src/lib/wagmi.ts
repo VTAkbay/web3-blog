@@ -2,8 +2,7 @@ import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { chain, configureChains, createClient } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-
-const alchemyId = process.env.REACT_APP_ALCHEMY_KEY;
+import { alchemyId } from "./utils";
 
 export const { chains, provider } = configureChains(
   [
