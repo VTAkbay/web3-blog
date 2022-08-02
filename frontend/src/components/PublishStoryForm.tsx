@@ -2,6 +2,14 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { pinJSONToIPFS } from "../lib/pinata";
+import { ethers } from "ethers";
+import { useAccount, useContractWrite } from "wagmi";
+import {
+  contractAdress,
+  contractInterface,
+  defaultNftMetadataImage,
+} from "../lib/utils";
 
 type UserSubmitForm = {
   title: string;
@@ -9,10 +17,30 @@ type UserSubmitForm = {
 };
 
 function PublishStoryForm() {
+  const { address } = useAccount();
+
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("*required"),
     text: Yup.string().required("*required"),
   });
+
+  const { writeAsync } = useContractWrite({
+    mode: "recklesslyUnprepared",
+    addressOrName: contractAdress,
+    contractInterface: contractInterface,
+    functionName: "safeMint",
+    overrides: {
+      value: ethers.utils.parseEther("0.01"),
+    },
+  });
+
+  const callContract = (uri: string) => {
+    const args = [address, uri];
+
+    writeAsync({
+      recklesslySetUnpreparedArgs: args,
+    });
+  };
 
   const {
     register,
@@ -22,8 +50,18 @@ function PublishStoryForm() {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (formData: UserSubmitForm) => {
-    console.log(formData);
+  const onSubmit = async (formData: UserSubmitForm) => {
+    const pinataResponse = await pinJSONToIPFS(formData);
+    const nftMetaData = {
+      image: defaultNftMetadataImage,
+      description: formData.title,
+      externalUrl: pinataResponse.pinataUrl,
+    };
+    const nftResult = await pinJSONToIPFS(nftMetaData);
+
+    if (nftResult.pinataUrl) {
+      callContract(nftResult.pinataUrl);
+    }
   };
 
   return (
