@@ -9,7 +9,7 @@ const config: HardhatUserConfig = {
   solidity: "0.8.11",
   networks: {
     mumbai: {
-      url: process.env.POLYGON_MUMBAI_ALCHEMY,
+      url: process.env.REACT_APP_ALCHEMY_KEY,
       accounts: [process.env.WALLET_PRIVATE_KEY as any],
     },
   },

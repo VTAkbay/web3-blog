@@ -3,7 +3,7 @@ import { chain, configureChains, createClient } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
-const alchemyId = process.env.POLYGON_MUMBAI_ALCHEMY;
+const alchemyId = process.env.REACT_APP_ALCHEMY_KEY;
 
 export const { chains, provider } = configureChains(
   [
