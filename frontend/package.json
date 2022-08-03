@@ -8,6 +8,7 @@
     "@emotion/styled": "^11.9.3",
     "@hookform/resolvers": "^2.9.7",
     "@mui/icons-material": "^5.8.4",
+    "@mui/lab": "^5.0.0-alpha.93",
     "@mui/material": "^5.9.2",
     "@openzeppelin/contracts": "^4.7.1",
     "@rainbow-me/rainbowkit": "^0.4.5",

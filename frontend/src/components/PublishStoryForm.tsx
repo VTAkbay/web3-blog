@@ -1,4 +1,11 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  LinearProgress,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -10,6 +17,9 @@ import {
   contractInterface,
   defaultNftMetadataImage,
 } from "../lib/utils";
+import { LoadingButton } from "@mui/lab";
+import PublishIcon from "@mui/icons-material/Publish";
+import React from "react";
 
 type UserSubmitForm = {
   title: string;
@@ -18,6 +28,8 @@ type UserSubmitForm = {
 
 function PublishStoryForm() {
   const { address } = useAccount();
+  const [minting, setMinting] = React.useState(false);
+  const [error, setError] = React.useState("");
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("*required"),
@@ -31,6 +43,15 @@ function PublishStoryForm() {
     functionName: "safeMint",
     overrides: {
       value: ethers.utils.parseEther("0.01"),
+    },
+    onSettled(data, error) {
+      console.log("Settled", { data, error });
+
+      if (error?.name && error.message) {
+        setError(error.message);
+      }
+
+      setMinting(false);
     },
   });
 
@@ -51,6 +72,8 @@ function PublishStoryForm() {
   });
 
   const onSubmit = async (formData: UserSubmitForm) => {
+    setMinting(true);
+
     const pinataResponse = await pinJSONToIPFS(formData);
     const nftMetaData = {
       image: defaultNftMetadataImage,
@@ -66,109 +89,114 @@ function PublishStoryForm() {
 
   return (
     <Box
-      component="main"
       sx={{
-        alignItems: "center",
-        display: "flex",
-        flexGrow: 1,
-        minHeight: "100%",
+        textAlign: "center",
       }}
+      component="div"
     >
+      <Box sx={{ width: "100%", height: "5px" }}>
+        {minting && <LinearProgress color="inherit" />}
+      </Box>
+
+      <Typography
+        sx={{
+          color: "#EF4444",
+          fontSize: "1rem",
+          width: "100%",
+          height: "5px",
+          marginTop: "4px",
+        }}
+      >
+        {error}
+      </Typography>
+
       <Container
         component="form"
         onSubmit={handleSubmit(onSubmit)}
-        sx={{
-          alignItems: "center",
-          display: "flex",
-          flexDirection: "column",
-          marginTop: "3rem",
-          marginBottom: "3rem",
-        }}
         autoComplete="off"
         noValidate
         maxWidth="md"
+        sx={{
+          marginTop: "2rem",
+          marginBottom: "2rem",
+        }}
       >
-        <Box
+        <Stack
+          direction="column"
+          spacing={4}
           sx={{
-            margin: "auto",
-            display: "flex",
-            flexDirection: "column",
-            mb: 2,
-            minWidth: "100%",
+            alignItems: "center",
           }}
         >
-          <TextField
-            label="Title"
-            maxRows={1}
+          <Box
             sx={{
-              alignSelf: "center",
               width: "70%",
-              color: "#374151",
-              lineHeight: "1.25",
-              borderRadius: "0.25rem",
-              borderWidth: "1px",
-              appearance: "none",
-            }}
-            variant="standard"
-            {...register("title")}
-          />
-          <Typography
-            sx={{
-              color: "#EF4444",
-              fontSize: "0.75rem",
-              lineHeight: "0.25rem",
-              marginLeft: "15%",
-              marginTop: "1rem",
-              width: "100%",
-              height: "10px",
             }}
           >
-            {errors.title?.message}
-          </Typography>
-        </Box>
+            <TextField
+              label="Title"
+              maxRows={1}
+              sx={{
+                width: "100%",
+                color: "#374151",
+                appearance: "none",
+              }}
+              variant="standard"
+              {...register("title")}
+            />
+            <Typography
+              sx={{
+                color: "#EF4444",
+                fontSize: "0.75rem",
+                width: "100%",
+                height: "10px",
+                marginTop: "5px",
+              }}
+            >
+              {errors.title?.message}
+            </Typography>
+          </Box>
 
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            mb: 2,
-            minWidth: "100%",
-          }}
-        >
-          <TextField
-            label="Tell your story..."
-            multiline
-            rows={10}
+          <Box
             sx={{
-              alignSelf: "center",
               width: "90%",
-              color: "#374151",
-              lineHeight: "1.25",
-              borderRadius: "0.25rem",
-              borderWidth: "1px",
-              appearance: "none",
-            }}
-            variant="standard"
-            {...register("text")}
-          />
-          <Typography
-            sx={{
-              color: "#EF4444",
-              fontSize: "0.75rem",
-              lineHeight: "0.25rem",
-              marginLeft: "5%",
-              marginTop: "1rem",
-              width: "100%",
-              height: "10px",
             }}
           >
-            {errors.text?.message}
-          </Typography>
-        </Box>
+            <TextField
+              label="Tell your story..."
+              multiline
+              rows={10}
+              sx={{
+                width: "100%",
+                color: "#374151",
+                appearance: "none",
+              }}
+              variant="standard"
+              {...register("text")}
+            />
+            <Typography
+              sx={{
+                color: "#EF4444",
+                fontSize: "0.75rem",
+                width: "100%",
+                height: "10px",
+                marginTop: "5px",
+              }}
+            >
+              {errors.text?.message}
+            </Typography>
+          </Box>
 
-        <Button type="submit" sx={{ mt: 3, width: "15ch" }} variant="outlined">
-          Publish
-        </Button>
+          <LoadingButton
+            endIcon={<PublishIcon />}
+            type="submit"
+            variant="outlined"
+            loadingPosition="end"
+            loading={minting}
+          >
+            Publish
+          </LoadingButton>
+        </Stack>
       </Container>
     </Box>
   );

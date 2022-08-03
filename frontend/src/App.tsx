@@ -22,6 +22,7 @@ import MyStories from "./pages/MyStories";
 import NotFound from "./pages/404";
 import Home from "./pages/Home";
 import { chains } from "./lib/wagmi";
+import { darkModePalette, lightModePallette } from "./lib/colors";
 
 export default function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -44,6 +45,11 @@ export default function App() {
       createTheme({
         palette: {
           mode,
+          ...(mode === "light"
+            ? // palette values for light mode
+              lightModePallette
+            : // palette values for dark mode
+              darkModePalette),
         },
       }),
     [mode]

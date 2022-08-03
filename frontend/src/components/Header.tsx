@@ -137,12 +137,9 @@ const Header = () => {
                 onClick={() => {
                   navigate(`/${page.route}`);
                 }}
+                color={"secondary"}
                 sx={{
                   my: 2,
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "darkgrey",
-                  },
                   display: "block",
                 }}
               >
