@@ -1,13 +1,20 @@
 import { useAccount } from "wagmi";
+import Loader from "../components/Loader";
 import PublishStoryForm from "../components/PublishStoryForm";
 
 function NewStory() {
   const { isConnected, isConnecting, isReconnecting } = useAccount();
 
-  return !isConnecting && !isReconnecting && isConnected ? (
-    <PublishStoryForm />
-  ) : (
-    <div>Please connect wallet.</div>
+  return (
+    <>
+      {isConnecting && isConnecting && <Loader />}
+
+      {!isConnecting && !isReconnecting && !isConnected && (
+        <div>Please connect wallet.</div>
+      )}
+
+      {!isConnecting && !isReconnecting && isConnected && <PublishStoryForm />}
+    </>
   );
 }
 
