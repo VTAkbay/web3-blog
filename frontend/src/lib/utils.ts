@@ -1,6 +1,6 @@
 import ABI from "../blog-abi.json";
 
-export const alchemyId = process.env.REACT_APP_ALCHEMY_KEY;
+export const alchemyHTTPS = process.env.REACT_APP_ALCHEMY_HTTPS;
 
 export const defaultNftMetadataImage =
   "https://gateway.pinata.cloud/ipfs/Qma7S2YRWJFTLSxRKB6E4qpcFjFANz5iYzfmXreDXCJKji";

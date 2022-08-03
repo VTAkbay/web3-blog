@@ -2,7 +2,7 @@ import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { chain, configureChains, createClient } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { alchemyId } from "./utils";
+import { alchemyHTTPS } from "./utils";
 
 export const { chains, provider } = configureChains(
   [
@@ -12,7 +12,7 @@ export const { chains, provider } = configureChains(
     chain.arbitrum,
     chain.polygonMumbai,
   ],
-  [alchemyProvider({ alchemyId: alchemyId } as any), publicProvider()]
+  [alchemyProvider({ alchemyId: alchemyHTTPS } as any), publicProvider()]
 );
 
 export const { connectors } = getDefaultWallets({
