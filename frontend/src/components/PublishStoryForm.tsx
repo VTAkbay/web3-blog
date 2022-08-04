@@ -1,7 +1,11 @@
 import {
+  Alert,
   Box,
+  Button,
   Container,
+  IconButton,
   LinearProgress,
+  Snackbar,
   Stack,
   TextField,
   Typography,
@@ -20,6 +24,7 @@ import {
 import { LoadingButton } from "@mui/lab";
 import PublishIcon from "@mui/icons-material/Publish";
 import React from "react";
+import CloseIcon from "@mui/icons-material/Close";
 
 type UserSubmitForm = {
   title: string;
@@ -29,7 +34,12 @@ type UserSubmitForm = {
 function PublishStoryForm() {
   const { address } = useAccount();
   const [minting, setMinting] = React.useState(false);
-  const [error, setError] = React.useState("");
+  const [mintingError, setMintingError] = React.useState(false);
+  const [mintingErrorMessage, setMintingErrorMessage] = React.useState("");
+
+  const handleErrorBar = () => {
+    setMintingError(false);
+  };
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("*required"),
@@ -45,10 +55,11 @@ function PublishStoryForm() {
       value: ethers.utils.parseEther("0.01"),
     },
     onSettled(data, error) {
-      console.log("Settled", { data, error });
+      // console.log("Settled", { data, error });
 
       if (error?.name && error.message) {
-        setError(error.message);
+        setMintingError(true);
+        setMintingErrorMessage(error.message);
       }
 
       setMinting(false);
@@ -88,27 +99,10 @@ function PublishStoryForm() {
   };
 
   return (
-    <Box
-      sx={{
-        textAlign: "center",
-      }}
-      component="div"
-    >
+    <Box component="div">
       <Box sx={{ width: "100%", height: "5px" }}>
         {minting && <LinearProgress color="inherit" />}
       </Box>
-
-      <Typography
-        sx={{
-          color: "#EF4444",
-          fontSize: "1rem",
-          width: "100%",
-          height: "5px",
-          marginTop: "4px",
-        }}
-      >
-        {error}
-      </Typography>
 
       <Container
         component="form"
@@ -196,6 +190,38 @@ function PublishStoryForm() {
           >
             Publish
           </LoadingButton>
+
+          <Snackbar
+            open={mintingError}
+            autoHideDuration={10000}
+            onClose={handleErrorBar}
+          >
+            <Alert
+              action={
+                <>
+                  <Button
+                    onClick={handleErrorBar}
+                    type="submit"
+                    color="inherit"
+                    size="small"
+                  >
+                    Retry
+                  </Button>
+                  <IconButton
+                    sx={{ marginLeft: "1rem", padding: "4px" }}
+                    aria-label="delete"
+                    onClick={handleErrorBar}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </>
+              }
+              severity="warning"
+              sx={{ width: "100%" }}
+            >
+              {mintingErrorMessage}!
+            </Alert>
+          </Snackbar>
         </Stack>
       </Container>
     </Box>

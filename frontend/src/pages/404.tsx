@@ -23,6 +23,7 @@ function NotFound() {
             display: "flex",
             flexDirection: "column",
             marginTop: "1rem",
+            marginBottom: "1rem",
           }}
         >
           <Typography align="center" variant="h2">
@@ -48,7 +49,7 @@ function NotFound() {
             <Button
               startIcon={<ArrowBackIcon fontSize="small" />}
               sx={{ mt: 3, mr: 3 }}
-              variant="contained"
+              variant="outlined"
               onClick={() => {
                 navigate(-1);
               }}
@@ -58,7 +59,7 @@ function NotFound() {
             <Button
               startIcon={<ArrowBackIcon fontSize="small" />}
               sx={{ mt: 3 }}
-              variant="contained"
+              variant="outlined"
               onClick={() => {
                 navigate("/");
               }}
