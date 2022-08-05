@@ -42,8 +42,12 @@ function PublishStoryForm() {
   };
 
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required("*required"),
-    text: Yup.string().required("*required"),
+    title: Yup.string()
+      .required("*required")
+      .min(25, "Title must be at least 25 characters"),
+    text: Yup.string()
+      .required("*required")
+      .min(250, "Story must be at least 250 characters"),
   });
 
   const { writeAsync } = useContractWrite({
