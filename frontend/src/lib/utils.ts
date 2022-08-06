@@ -8,3 +8,7 @@ export const defaultNftMetadataImage =
 export const contractInterface = ABI;
 
 export const contractAdress = "0xc771E7DafBB9596eE8f9c92643F6947E0FA3353a";
+
+export const openInNewTab = (url: string) => {
+  window.open(url, "_blank", "noopener,noreferrer");
+};

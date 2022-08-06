@@ -3,7 +3,6 @@ import { useAccount } from "wagmi";
 import { alchemyHTTPS } from "../lib/utils";
 import axios from "axios";
 import {
-  Button,
   Card,
   CardActionArea,
   CardActions,
@@ -15,6 +14,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Loader from "./Loader";
+import ShareButton from "./ShareButton";
 
 function Story() {
   const isMobile = useMediaQuery("(max-width:899px)");
@@ -103,7 +103,11 @@ function Story() {
                 : story.text.substring(0, 350) + "...";
 
               return (
-                <Card key={story.id} variant="outlined" sx={{ width: "50vw" }}>
+                <Card
+                  key={story.id}
+                  variant="outlined"
+                  sx={{ width: isMobile ? "70vw" : "50vw" }}
+                >
                   <CardActionArea>
                     <CardMedia
                       component="img"
@@ -130,9 +134,7 @@ function Story() {
                   </CardActionArea>
 
                   <CardActions>
-                    <Button size="small" color="primary">
-                      Share
-                    </Button>
+                    <ShareButton />
                   </CardActions>
                 </Card>
               );
