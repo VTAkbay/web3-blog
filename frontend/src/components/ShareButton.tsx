@@ -6,7 +6,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import { openInNewTab } from "../lib/utils";
-import { useTheme } from "@mui/material";
+import { Tooltip, useTheme } from "@mui/material";
 
 const actions = [
   {
@@ -75,21 +75,23 @@ export default function ShareButton() {
     },
   };
   return (
-    <SpeedDial
-      ariaLabel="Share"
-      icon={<ShareIcon />}
-      direction={"right"}
-      sx={ShareButtonStyles}
-    >
-      {actions.map((action) => (
-        <SpeedDialAction
-          key={action.name}
-          icon={action.icon}
-          tooltipTitle={action.name}
-          onClick={action.function}
-          sx={actionStyles}
-        />
-      ))}
-    </SpeedDial>
+    <Tooltip title="Share story" placement="left">
+      <SpeedDial
+        ariaLabel="Share"
+        icon={<ShareIcon />}
+        direction={"right"}
+        sx={ShareButtonStyles}
+      >
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={action.function}
+            sx={actionStyles}
+          />
+        ))}
+      </SpeedDial>
+    </Tooltip>
   );
 }
