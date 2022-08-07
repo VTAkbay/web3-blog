@@ -158,9 +158,9 @@ function StoryComponent({
         getUserStories();
       } else if (latestStories) {
         getLatestStories();
-      } else {
-        setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
 
     // eslint-disable-next-line
