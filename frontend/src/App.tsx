@@ -23,6 +23,7 @@ import NotFound from "./pages/404";
 import Home from "./pages/Home";
 import { chains } from "./lib/wagmi";
 import { darkModePalette, lightModePallette } from "./lib/colors";
+import Story from "./pages/Story";
 
 export default function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -74,6 +75,7 @@ export default function App() {
               <Route path="create-story" element={<NewStory />} />
               <Route path="stories" element={<Stories />} />
               <Route path="my-stories" element={<MyStories />} />
+              <Route path="story/:storyId" element={<Story />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ThemeProvider>
