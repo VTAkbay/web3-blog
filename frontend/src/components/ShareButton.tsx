@@ -8,45 +8,51 @@ import TelegramIcon from "@mui/icons-material/Telegram";
 import { openInNewTab } from "../lib/utils";
 import { Tooltip, useTheme } from "@mui/material";
 
-const actions = [
-  {
-    icon: <TwitterIcon />,
-    name: "Twitter",
-    function: () => {
-      openInNewTab(
-        "https://twitter.com/intent/tweet?text=This%20is%20some%20%23text%20on%20%40twitter%20www.twitter.com%20pic.twitter.com/n8gZ1tNCcp"
-      );
-    },
-  },
-  {
-    icon: <WhatsAppIcon />,
-    name: "Whatsapp",
-    function: () => {
-      openInNewTab(
-        "https://wa.me/?text=I'm%20inquiring%20about%20the%20apartment%20listing"
-      );
-    },
-  },
-  {
-    icon: <TelegramIcon />,
-    name: "Telegram",
-    function: () => {
-      openInNewTab("https://t.me/share/url?url=https://google.com&text=Google");
-    },
-  },
-  {
-    icon: <FileCopyIcon />,
-    name: "Copy",
-    function: () => {
-      console.log("copy share");
+interface ShareButtonProps {
+  storyId: string;
+}
 
-      navigator.clipboard.writeText("copied story link");
-    },
-  },
-];
-
-export default function ShareButton() {
+export default function ShareButton({ storyId }: ShareButtonProps) {
   const theme = useTheme();
+  const baseUrl = `${window.location.host}%2Fweb3-blog%2F%23%2Fstory/${storyId}`;
+  const copyUrl = `${window.location.host}/web3-blog/#/story/${storyId}`;
+
+  const actions = [
+    {
+      icon: <TwitterIcon />,
+      name: "Twitter",
+      function: () => {
+        openInNewTab(
+          `https://twitter.com/intent/tweet?url=${baseUrl}&text=You%20should%20check%20this%20post!`
+        );
+      },
+    },
+    {
+      icon: <WhatsAppIcon />,
+      name: "Whatsapp",
+      function: () => {
+        openInNewTab(
+          `https://wa.me/?text=You%20should%20check%20this%20post!%20${baseUrl}`
+        );
+      },
+    },
+    {
+      icon: <TelegramIcon />,
+      name: "Telegram",
+      function: () => {
+        openInNewTab(
+          `https://t.me/share/url?url=${baseUrl}&text=You%20should%20check%20this%20post!%20`
+        );
+      },
+    },
+    {
+      icon: <FileCopyIcon />,
+      name: "Copy",
+      function: () => {
+        navigator.clipboard.writeText(copyUrl);
+      },
+    },
+  ];
 
   const actionStyles = {
     margin: 0,

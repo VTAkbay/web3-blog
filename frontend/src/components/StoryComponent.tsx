@@ -227,7 +227,7 @@ function StoryComponent({
                   </CardActionArea>
 
                   <CardActions>
-                    <ShareButton />
+                    <ShareButton storyId={story.id} />
                   </CardActions>
                 </Card>
               );
