@@ -25,6 +25,7 @@ import { LoadingButton } from "@mui/lab";
 import PublishIcon from "@mui/icons-material/Publish";
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 
 type UserSubmitForm = {
   title: string;
@@ -32,10 +33,12 @@ type UserSubmitForm = {
 };
 
 function PublishStoryForm() {
+  const navigate = useNavigate();
   const { address } = useAccount();
   const [minting, setMinting] = React.useState(false);
   const [mintingError, setMintingError] = React.useState(false);
   const [mintingErrorMessage, setMintingErrorMessage] = React.useState("");
+  const [confirming, setConfirming] = React.useState(false);
 
   const handleErrorBar = () => {
     setMintingError(false);
@@ -58,8 +61,17 @@ function PublishStoryForm() {
     overrides: {
       value: ethers.utils.parseEther("0.01"),
     },
-    onSettled(data, error) {
-      // console.log("Settled", { data, error });
+    async onSettled(data, error) {
+      if (data) {
+        setConfirming(true);
+
+        const transaction = await data?.wait();
+
+        if (transaction.confirmations >= 1) {
+          setConfirming(false);
+          navigate(`/my-stories`);
+        }
+      }
 
       if (error?.name && error.message) {
         setMintingError(true);
@@ -224,6 +236,12 @@ function PublishStoryForm() {
               sx={{ width: "100%" }}
             >
               {mintingErrorMessage}!
+            </Alert>
+          </Snackbar>
+
+          <Snackbar open={confirming}>
+            <Alert severity="success" sx={{ width: "100%" }}>
+              Confirming the transaction, please wait!
             </Alert>
           </Snackbar>
         </Stack>
