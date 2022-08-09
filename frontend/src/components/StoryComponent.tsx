@@ -151,16 +151,18 @@ function StoryComponent({
   }
 
   React.useEffect(() => {
-    if (address && !isReconnecting && !isConnecting) {
-      if (storyId) {
-        getStory();
-      } else if (userStories) {
-        getUserStories();
-      } else if (latestStories) {
-        getLatestStories();
+    if (!isReconnecting && !isConnecting) {
+      if (address) {
+        if (storyId) {
+          getStory();
+        } else if (userStories) {
+          getUserStories();
+        } else if (latestStories) {
+          getLatestStories();
+        }
+      } else {
+        setLoading(false);
       }
-    } else {
-      setLoading(false);
     }
 
     // eslint-disable-next-line
