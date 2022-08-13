@@ -20,11 +20,11 @@ contract Blog is ERC721, ERC721URIStorage, Ownable {
         fees = fees_;
     }
 
-    function safeMint(address to, string memory uri) public payable {
+    function createPost(address to, string memory uri) public payable {
         require(msg.value >= fees, "Not enough MATIC");
         payable(owner()).transfer(fees);
 
-        //Mint NFT
+        //Create post
 
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
