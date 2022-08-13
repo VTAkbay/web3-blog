@@ -41,24 +41,26 @@ function StoryComponent({
   const alchemy = new Alchemy(settings);
 
   async function getStory() {
-    alchemy.nft.getNftMetadata(contractAdress, storyId!).then(async (story) => {
-      try {
-        await axios.get(story.rawMetadata?.externalUrl).then((res) => {
-          setStoryData([
-            {
-              id: story.tokenId,
-              title: story.description,
+    try {
+      alchemy.nft
+        .getNftMetadata(contractAdress, storyId!)
+        .then(async (story) => {
+          await axios.get(story.rawMetadata?.externalUrl).then(async (res) => {
+            setStoryData([
+              {
+                id: story.tokenId,
+                title: story.description,
                 image: await mockImg(),
                 text: res.data.text,
-            },
-          ]);
+              },
+            ]);
 
-          setLoading(false);
+            setLoading(false);
+          });
         });
-      } catch (error) {
-        console.error(error);
-      }
-    });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async function getUserStories() {
