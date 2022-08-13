@@ -35,13 +35,13 @@ type UserSubmitForm = {
 function PublishStoryForm() {
   const navigate = useNavigate();
   const { address } = useAccount();
-  const [minting, setMinting] = React.useState(false);
-  const [mintingError, setMintingError] = React.useState(false);
-  const [mintingErrorMessage, setMintingErrorMessage] = React.useState("");
+  const [creating, setCreating] = React.useState(false);
+  const [creatingError, setCreatingError] = React.useState(false);
+  const [creatingErrorMessage, setCreatingErrorMessage] = React.useState("");
   const [confirming, setConfirming] = React.useState(false);
 
   const handleErrorBar = () => {
-    setMintingError(false);
+    setCreatingError(false);
   };
 
   const validationSchema = Yup.object().shape({
@@ -57,7 +57,7 @@ function PublishStoryForm() {
     mode: "recklesslyUnprepared",
     addressOrName: contractAdress,
     contractInterface: contractInterface,
-    functionName: "safeMint",
+    functionName: "createPost",
     overrides: {
       value: ethers.utils.parseEther("0.01"),
     },
@@ -74,11 +74,11 @@ function PublishStoryForm() {
       }
 
       if (error?.name && error.message) {
-        setMintingError(true);
-        setMintingErrorMessage(error.message);
+        setCreatingError(true);
+        setCreatingErrorMessage(error.message);
       }
 
-      setMinting(false);
+      setCreating(false);
     },
   });
 
@@ -99,7 +99,7 @@ function PublishStoryForm() {
   });
 
   const onSubmit = async (formData: UserSubmitForm) => {
-    setMinting(true);
+    setCreating(true);
 
     const pinataResponse = await pinJSONToIPFS(formData);
     const nftMetaData = {
@@ -117,7 +117,7 @@ function PublishStoryForm() {
   return (
     <Box component="div">
       <Box sx={{ width: "100%", height: "5px" }}>
-        {minting && <LinearProgress color="inherit" />}
+        {creating && <LinearProgress color="inherit" />}
       </Box>
 
       <Container
@@ -202,13 +202,13 @@ function PublishStoryForm() {
             type="submit"
             variant="outlined"
             loadingPosition="end"
-            loading={minting}
+            loading={creating}
           >
             Publish
           </LoadingButton>
 
           <Snackbar
-            open={mintingError}
+            open={creatingError}
             autoHideDuration={10000}
             onClose={handleErrorBar}
           >
@@ -235,7 +235,7 @@ function PublishStoryForm() {
               severity="warning"
               sx={{ width: "100%" }}
             >
-              {mintingErrorMessage}!
+              {creatingErrorMessage}!
             </Alert>
           </Snackbar>
 
