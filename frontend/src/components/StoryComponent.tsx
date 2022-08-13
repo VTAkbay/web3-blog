@@ -1,6 +1,6 @@
 import React from "react";
 import { useAccount } from "wagmi";
-import { contractAdress } from "../lib/utils";
+import { contractAdress, mockImg } from "../lib/utils";
 import axios from "axios";
 import {
   Card,
@@ -48,8 +48,8 @@ function StoryComponent({
             {
               id: story.tokenId,
               title: story.description,
-              image: story.rawMetadata?.image,
-              text: res.data.text,
+                image: await mockImg(),
+                text: res.data.text,
             },
           ]);
 
@@ -85,9 +85,8 @@ function StoryComponent({
 
                   return {
                     id: nft.id,
-                    image: nft.image,
+                    image: await mockImg(),
                     title: nft.title,
-                    url: nft.url,
                     text: response.data.text,
                   };
                 } catch (error) {
@@ -131,10 +130,8 @@ function StoryComponent({
                 const response = await axios.get(nft.url);
                 return {
                   id: nft.id,
-                  image: nft.image,
-                  title: nft.title,
-                  url: nft.url,
-                  text: response.data.text,
+                    image: await mockImg(),
+                  image: await mockImg(),
                 };
               } catch (error) {
                 console.error(error);
@@ -220,6 +217,12 @@ function StoryComponent({
                         component="img"
                         height={isMobile ? "80" : "150"}
                         image={
+                          story.image
+                            ? story.image
+                            : "https://picsum.photos/1920/1080"
+                        }
+                        alt="story image"
+                      />
 
                       <CardContent>
                         <Typography
