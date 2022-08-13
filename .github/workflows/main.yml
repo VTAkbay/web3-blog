@@ -28,6 +28,11 @@ jobs:
         run: |
           npm ci
           npm run build --if-present
+        env:
+          REACT_APP_ALCHEMY_HTTPS: ${{ secrets.REACT_APP_ALCHEMY_HTTPS }}
+          REACT_APP_ALCHEMY_KEY: ${{ secrets.REACT_APP_ALCHEMY_KEY }}
+          REACT_APP_PINATA_KEY: ${{ secrets.REACT_APP_PINATA_KEY }}
+          REACT_APP_PINATA_SECRET: ${{ secrets.REACT_APP_PINATA_SECRET }}
       - name: deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
