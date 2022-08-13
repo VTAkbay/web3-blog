@@ -63,7 +63,9 @@ function StoryComponent({
 
   async function getUserStories() {
     alchemy.nft
-      .getNftsForOwner(address!, contractAdress as any)
+      .getNftsForOwner(address!, {
+        contractAddresses: [contractAdress],
+      })
       .then(async (res) => {
         try {
           const rawUserStories = res.ownedNfts
