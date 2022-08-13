@@ -113,29 +113,39 @@ function StoryComponent({
         const rawUserStories = res.nfts
           .filter(
             (story, index, self) =>
-              index ===
-              self.findIndex(
-                (s) =>
-                  s.tokenId === story.tokenId && story.description.length >= 25
-              )
+              index === self.findIndex((s) => s.tokenId === story.tokenId)
           )
           .map((story) => {
             return {
               id: story.tokenId,
               image: story.rawMetadata?.image,
               title: story.rawMetadata?.description,
-              url: story.rawMetadata?.externalUrl,
+              url: story.tokenUri!.raw,
             };
           });
         (async () => {
           const resolvedUserNfts = await Promise.all(
             rawUserStories.map(async (nft) => {
               try {
-                const response = await axios.get(nft.url);
+                const postAllData = await axios.get(nft.url);
+                if (postAllData.data.externalUrl) {
+                  const postDataResponse = await axios.get(
+                    postAllData.data.externalUrl
+                  );
+
+                  return {
+                    id: nft.id,
+                    image: await mockImg(),
+                    title: postDataResponse.data.title,
+                    text: postDataResponse.data.text,
+                  };
+                }
+
                 return {
                   id: nft.id,
-                    image: await mockImg(),
                   image: await mockImg(),
+                  title: postAllData.data.title,
+                  text: postAllData.data.text,
                 };
               } catch (error) {
                 console.error(error);
@@ -152,6 +162,7 @@ function StoryComponent({
   }
 
   React.useEffect(() => {
+    // Twice runs in Dev mode cause of StrictMode & Not on Prod
     if (!isReconnecting && !isConnecting) {
       if (address) {
         if (storyId) {
