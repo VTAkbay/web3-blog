@@ -192,48 +192,59 @@ function StoryComponent({
               alignItems: "center",
             }}
           >
-            {storyData.map((story: any) => {
-              const text = isMobile
-                ? story.text.substring(0, 80) + "..."
-                : story.text.substring(0, 350) + "...";
-
-              return (
-                <Card
-                  key={story.id}
-                  variant="outlined"
-                  sx={{ width: isMobile ? "70vw" : "50vw" }}
+            {storyData.length === 0 ? (
+              <Link to={"/create-story"}>
+                <Typography
+                  gutterBottom
+                  variant={isMobile ? "h6" : "h5"}
+                  component="div"
                 >
-                  <CardActionArea component={Link} to={`/story/${story.id}`}>
-                    <CardMedia
-                      component="img"
-                      height={isMobile ? "80" : "150"}
-                      image={"https://picsum.photos/1920/1080"}
-                      alt="story image"
-                    />
+                  This place seems empty. <br />
+                  Click me to share something.
+                </Typography>
+              </Link>
+            ) : (
+              storyData.map((story: any) => {
+                const text = isMobile
+                  ? story.text.substring(0, 80) + "..."
+                  : story.text.substring(0, 350) + "...";
 
-                    <CardContent>
-                      <Typography
-                        gutterBottom
-                        variant={isMobile ? "h6" : "h5"}
-                        component="div"
-                      >
-                        {story.title}
-                      </Typography>
-                      <Typography
-                        variant={isMobile ? "body2" : "body1"}
-                        color="text.secondary"
-                      >
-                        {storyId ? story.text : text}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
+                return (
+                  <Card
+                    key={story.id}
+                    variant="outlined"
+                    sx={{ width: isMobile ? "70vw" : "50vw" }}
+                  >
+                    <CardActionArea component={Link} to={`/story/${story.id}`}>
+                      <CardMedia
+                        component="img"
+                        height={isMobile ? "80" : "150"}
+                        image={
 
-                  <CardActions>
-                    <ShareButton storyId={story.id} />
-                  </CardActions>
-                </Card>
-              );
-            })}
+                      <CardContent>
+                        <Typography
+                          gutterBottom
+                          variant={isMobile ? "h6" : "h5"}
+                          component="div"
+                        >
+                          {story.title}
+                        </Typography>
+                        <Typography
+                          variant={isMobile ? "body2" : "body1"}
+                          color="text.secondary"
+                        >
+                          {storyId ? story.text : text}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+
+                    <CardActions>
+                      <ShareButton storyId={story.id} />
+                    </CardActions>
+                  </Card>
+                );
+              })
+            )}
           </Stack>
         </Container>
       )}
