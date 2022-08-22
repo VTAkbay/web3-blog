@@ -1,7 +1,11 @@
 import axios from "axios";
 
-const key = process.env.REACT_APP_PINATA_KEY;
-const secret = process.env.REACT_APP_PINATA_SECRET;
+const key = process.env.REACT_APP_PINATA_KEY as string;
+const secret = process.env.REACT_APP_PINATA_SECRET as string;
+
+if (!key || !secret) {
+  throw Error("Missing Pinata key and secret!");
+}
 
 export const pinJSONToIPFS = async (JSONBody: object) => {
   const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
